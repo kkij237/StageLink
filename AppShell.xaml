@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<Shell xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+       xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+       xmlns:views="clr-namespace:StageLink.Views"
+       x:Class="StageLink.AppShell"
+       Shell.FlyoutBehavior="Disabled"
+       Shell.NavBarIsVisible="False"
+       Shell.BackgroundColor="{StaticResource Surface}"
+       Shell.TabBarBackgroundColor="{StaticResource SurfaceContainerLow}"
+       Shell.TabBarForegroundColor="{StaticResource Primary}"
+       Shell.TabBarTitleColor="{StaticResource Primary}"
+       Shell.TabBarUnselectedColor="{StaticResource OnSurfaceVariant}">
+
+	<!-- Écran de départ -->
+	<ShellContent Title="Connexion"
+	              Route="LoginPage"
+	              ContentTemplate="{DataTemplate views:LoginPage}" />
+
+	<!-- Barre d'onglets principale -->
+	<TabBar Route="MainTabs">
+		<Tab Title="Offres" Icon="tab_work.png" Route="offres">
+			<ShellContent ContentTemplate="{DataTemplate views:OffersPage}" />
+		</Tab>
+		<Tab Title="Recherche" Icon="tab_explore.png" Route="recherche">
+			<ShellContent ContentTemplate="{DataTemplate views:SearchPage}" />
+		</Tab>
+		<Tab Title="Candidatures" Icon="tab_task.png" Route="candidatures">
+			<ShellContent ContentTemplate="{DataTemplate views:ApplicationsPage}" />
+		</Tab>
+		<Tab Title="Profil" Icon="tab_person.png" Route="profil">
+			<ShellContent ContentTemplate="{DataTemplate views:ProfilePage}" />
+		</Tab>
+	</TabBar>
+
+</Shell>

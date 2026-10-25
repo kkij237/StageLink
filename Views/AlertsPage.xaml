@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="StageLink.Views.AlertsPage"
+             Shell.NavBarIsVisible="False"
+             Shell.TabBarIsVisible="False">
+	<Grid RowDefinitions="Auto,*">
+
+		<Grid Grid.Row="0" ColumnDefinitions="Auto,*" ColumnSpacing="8" Padding="12,0,16,0" HeightRequest="64">
+			<Border Style="{StaticResource IconButton}" BackgroundColor="Transparent" VerticalOptions="Center">
+				<Border.GestureRecognizers>
+					<TapGestureRecognizer Command="{Binding GoBackCommand}" />
+				</Border.GestureRecognizers>
+				<Label Text="←" FontSize="22" HorizontalOptions="Center" VerticalOptions="Center" />
+			</Border>
+			<Label Grid.Column="1" Text="Alertes &amp; Notifications" Style="{StaticResource LabelTitle}" FontSize="18"
+			       VerticalOptions="Center" />
+		</Grid>
+
+		<ScrollView Grid.Row="1">
+			<VerticalStackLayout Padding="16,8,16,32" Spacing="24">
+
+				<VerticalStackLayout Spacing="2">
+					<Label Text="Alertes &amp; Notifications" Style="{StaticResource LabelHeadline}" FontSize="20" />
+					<Label Text="Restez informé des opportunités sans surcharge numérique"
+					       Style="{StaticResource LabelCaption}" FontSize="14" />
+				</VerticalStackLayout>
+
+				<!-- Alertes programmées -->
+				<VerticalStackLayout Spacing="8">
+					<Grid ColumnDefinitions="*,Auto">
+						<HorizontalStackLayout Spacing="6">
+							<Label Text="🔎" FontSize="16" VerticalOptions="Center" />
+							<Label Text="Alertes programmées" Style="{StaticResource LabelTitle}" VerticalOptions="Center" />
+						</HorizontalStackLayout>
+						<Border Grid.Column="1" StrokeThickness="0" StrokeShape="RoundRectangle 12" Padding="8,3"
+						        BackgroundColor="{StaticResource SurfaceContainer}" VerticalOptions="Center">
+							<Label Text="{Binding ActiveCountLabel}" FontSize="10" FontAttributes="Bold"
+							       TextColor="{StaticResource Outline}" />
+						</Border>
+					</Grid>
+					<VerticalStackLayout BindableLayout.ItemsSource="{Binding Rules}" Spacing="8">
+						<BindableLayout.ItemTemplate>
+							<DataTemplate>
+								<Border Style="{StaticResource Card}" Padding="12">
+									<Grid ColumnDefinitions="*,Auto" ColumnSpacing="12">
+										<VerticalStackLayout VerticalOptions="Center">
+											<Label Text="{Binding Title}" Style="{StaticResource LabelTitle}"
+											       LineBreakMode="TailTruncation" MaxLines="1" />
+											<Label Text="{Binding Detail}" Style="{StaticResource LabelCaption}" />
+										</VerticalStackLayout>
+										<Switch Grid.Column="1" IsToggled="{Binding IsActive}" VerticalOptions="Center" />
+									</Grid>
+								</Border>
+							</DataTemplate>
+						</BindableLayout.ItemTemplate>
+					</VerticalStackLayout>
+				</VerticalStackLayout>
+
+				<!-- Dernières réceptions -->
+				<VerticalStackLayout Spacing="8">
+					<Grid ColumnDefinitions="*,Auto">
+						<HorizontalStackLayout Spacing="6">
+							<Label Text="🔔" FontSize="16" VerticalOptions="Center" />
+							<Label Text="Dernières réceptions" Style="{StaticResource LabelTitle}" VerticalOptions="Center" />
+						</HorizontalStackLayout>
+						<Label Grid.Column="1" Text="{Binding MarkAllText}" FontSize="10" FontAttributes="Bold"
+						       TextColor="{StaticResource Secondary}" VerticalOptions="Center">
+							<Label.GestureRecognizers>
+								<TapGestureRecognizer Command="{Binding MarkAllReadCommand}" />
+							</Label.GestureRecognizers>
+						</Label>
+					</Grid>
+					<VerticalStackLayout BindableLayout.ItemsSource="{Binding Notifications}" Spacing="8">
+						<BindableLayout.ItemTemplate>
+							<DataTemplate>
+								<Border Style="{StaticResource Card}" Padding="12">
+									<Grid ColumnDefinitions="Auto,*,Auto" ColumnSpacing="8">
+										<Border WidthRequest="8" HeightRequest="8" StrokeThickness="0"
+										        StrokeShape="RoundRectangle 4" BackgroundColor="{StaticResource SurfaceVariant}"
+										        VerticalOptions="Start" Margin="0,6,0,0">
+											<Border.Triggers>
+												<DataTrigger TargetType="Border" Binding="{Binding IsUnread}" Value="True">
+													<Setter Property="BackgroundColor" Value="{StaticResource Primary}" />
+												</DataTrigger>
+											</Border.Triggers>
+										</Border>
+										<VerticalStackLayout Grid.Column="1" Spacing="2">
+											<Label Text="{Binding Title}" Style="{StaticResource LabelTitle}"
+											       LineBreakMode="TailTruncation" MaxLines="1" />
+											<Label Text="{Binding Message}" Style="{StaticResource LabelCaption}" />
+										</VerticalStackLayout>
+										<Label Grid.Column="2" Text="{Binding TimeLabel}" Style="{StaticResource LabelCaption}"
+										       VerticalOptions="Start" />
+									</Grid>
+								</Border>
+							</DataTemplate>
+						</BindableLayout.ItemTemplate>
+					</VerticalStackLayout>
+				</VerticalStackLayout>
+
+				<!-- Mode nuit silencieux -->
+				<Border Style="{StaticResource Card}" BackgroundColor="{StaticResource SurfaceContainerHigh}">
+					<Grid ColumnDefinitions="Auto,*,Auto" ColumnSpacing="12">
+						<Border WidthRequest="40" HeightRequest="40" StrokeThickness="0" StrokeShape="RoundRectangle 20"
+						        BackgroundColor="{StaticResource SurfaceVariant}" VerticalOptions="Center">
+							<Label Text="🌙" FontSize="18" HorizontalOptions="Center" VerticalOptions="Center" />
+						</Border>
+						<VerticalStackLayout Grid.Column="1" VerticalOptions="Center">
+							<Label Text="Mode nuit silencieux" Style="{StaticResource LabelTitle}" />
+							<Label Text="Aucune alerte push entre 21h00 et 08h00" Style="{StaticResource LabelCaption}" />
+						</VerticalStackLayout>
+						<Switch Grid.Column="2" IsToggled="{Binding IsQuietMode}" VerticalOptions="Center" />
+					</Grid>
+				</Border>
+			</VerticalStackLayout>
+		</ScrollView>
+	</Grid>
+</ContentPage>

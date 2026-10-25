@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:comp="clr-namespace:StageLink.Views.Components"
+             x:Class="StageLink.Views.OffersPage"
+             x:Name="Page"
+             Shell.NavBarIsVisible="False">
+	<Grid RowDefinitions="Auto,Auto,*">
+
+		<comp:AppHeader Grid.Row="0" Subtitle="Offres" />
+
+		<VerticalStackLayout Grid.Row="1" Padding="16,4,16,8" Spacing="12">
+			<VerticalStackLayout Spacing="2">
+				<Label Text="Offres de stage" Style="{StaticResource LabelHeadline}" />
+				<Label Text="Découvrez les opportunités adaptées à votre profil" Style="{StaticResource LabelBody}" />
+			</VerticalStackLayout>
+
+			<Border Style="{StaticResource InputBox}" HeightRequest="44">
+				<Grid ColumnDefinitions="Auto,*" ColumnSpacing="8">
+					<Label Text="🔍" FontSize="16" VerticalOptions="Center" />
+					<Entry Grid.Column="1" Text="{Binding SearchText}" Placeholder="Poste, compétence, ville..."
+					       ReturnType="Search" />
+				</Grid>
+			</Border>
+
+			<CollectionView ItemsSource="{Binding Filters}" ItemsLayout="HorizontalList"
+			                HeightRequest="44" SelectionMode="None">
+				<CollectionView.ItemTemplate>
+					<DataTemplate>
+						<comp:FilterChipView Margin="0,0,8,0"
+						                     Command="{Binding BindingContext.SelectFilterCommand, Source={x:Reference Page}}" />
+					</DataTemplate>
+				</CollectionView.ItemTemplate>
+			</CollectionView>
+		</VerticalStackLayout>
+
+		<CollectionView Grid.Row="2" ItemsSource="{Binding Offers}" SelectionMode="None" Margin="16,0">
+			<CollectionView.ItemsLayout>
+				<LinearItemsLayout Orientation="Vertical" ItemSpacing="12" />
+			</CollectionView.ItemsLayout>
+			<CollectionView.ItemTemplate>
+				<DataTemplate>
+					<comp:OfferCard
+						OpenCommand="{Binding BindingContext.OpenOfferCommand, Source={x:Reference Page}}"
+						BookmarkCommand="{Binding BindingContext.ToggleBookmarkCommand, Source={x:Reference Page}}" />
+				</DataTemplate>
+			</CollectionView.ItemTemplate>
+			<CollectionView.EmptyView>
+				<Label Text="Aucune offre ne correspond à votre recherche." Style="{StaticResource LabelBody}"
+				       HorizontalTextAlignment="Center" Margin="0,48,0,0" />
+			</CollectionView.EmptyView>
+			<CollectionView.Footer>
+				<BoxView HeightRequest="16" Color="Transparent" />
+			</CollectionView.Footer>
+		</CollectionView>
+	</Grid>
+</ContentPage>

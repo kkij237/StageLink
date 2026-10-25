@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="StageLink.Views.OfferDetailPage"
+             Shell.NavBarIsVisible="False"
+             Shell.TabBarIsVisible="False">
+	<Grid RowDefinitions="Auto,*,Auto">
+
+		<!-- En-tête avec retour -->
+		<Grid Grid.Row="0" ColumnDefinitions="Auto,*" ColumnSpacing="8" Padding="12,0,16,0" HeightRequest="64">
+			<Border Style="{StaticResource IconButton}" BackgroundColor="Transparent" VerticalOptions="Center">
+				<Border.GestureRecognizers>
+					<TapGestureRecognizer Command="{Binding GoBackCommand}" />
+				</Border.GestureRecognizers>
+				<Label Text="←" FontSize="22" HorizontalOptions="Center" VerticalOptions="Center" />
+			</Border>
+			<Label Grid.Column="1" Text="Détails de l'offre" Style="{StaticResource LabelTitle}" FontSize="18"
+			       VerticalOptions="Center" />
+		</Grid>
+
+		<ScrollView Grid.Row="1">
+			<VerticalStackLayout Padding="16,4,16,24" Spacing="24">
+
+				<!-- Titre + sauvegarde -->
+				<VerticalStackLayout Spacing="12">
+					<Grid ColumnDefinitions="*,Auto" ColumnSpacing="8">
+						<VerticalStackLayout Spacing="4">
+							<Label Text="{Binding Offer.HeaderTitle}" FontSize="20" FontAttributes="Bold" />
+							<Label Text="{Binding Offer.Subtitle}" Style="{StaticResource LabelBody}" />
+						</VerticalStackLayout>
+						<Border Grid.Column="1" Style="{StaticResource IconButton}" VerticalOptions="Start">
+							<Border.GestureRecognizers>
+								<TapGestureRecognizer Command="{Binding ToggleBookmarkCommand}" />
+							</Border.GestureRecognizers>
+							<Label Text="{Binding Offer.BookmarkGlyph}" FontSize="22" HorizontalOptions="Center"
+							       VerticalOptions="Center" TextColor="{StaticResource OnSurfaceVariant}">
+								<Label.Triggers>
+									<DataTrigger TargetType="Label" Binding="{Binding Offer.IsBookmarked}" Value="True">
+										<Setter Property="TextColor" Value="{StaticResource Primary}" />
+									</DataTrigger>
+								</Label.Triggers>
+							</Label>
+						</Border>
+					</Grid>
+
+					<FlexLayout Wrap="Wrap">
+						<Border Style="{StaticResource Chip}" StrokeShape="RoundRectangle 16" Margin="0,0,8,8">
+							<Label Text="{Binding Offer.Duration, StringFormat='🕒  {0}'}" FontSize="12" FontAttributes="Bold" />
+						</Border>
+						<Border Style="{StaticResource Chip}" StrokeShape="RoundRectangle 16" Margin="0,0,8,8">
+							<Label Text="{Binding Offer.Salary, StringFormat='💶  {0}'}" FontSize="12" FontAttributes="Bold"
+							       TextColor="{StaticResource Primary}" />
+						</Border>
+						<Border Style="{StaticResource Chip}" StrokeShape="RoundRectangle 16" Margin="0,0,8,8">
+							<Label Text="{Binding Offer.StartDate, StringFormat='📅  {0}'}" FontSize="12"
+							       TextColor="{StaticResource OnSurfaceVariant}" />
+						</Border>
+					</FlexLayout>
+				</VerticalStackLayout>
+
+				<!-- Compétences attendues -->
+				<VerticalStackLayout Spacing="8">
+					<Label Text="Compétences attendues" Style="{StaticResource LabelSection}" />
+					<FlexLayout BindableLayout.ItemsSource="{Binding Offer.Skills}" Wrap="Wrap">
+						<BindableLayout.ItemTemplate>
+							<DataTemplate>
+								<Border Style="{StaticResource Chip}" Stroke="{StaticResource OutlineVariant}"
+								        StrokeThickness="1" Margin="0,0,8,8">
+									<Label Text="{Binding .}" FontSize="12" FontAttributes="Bold" />
+								</Border>
+							</DataTemplate>
+						</BindableLayout.ItemTemplate>
+					</FlexLayout>
+				</VerticalStackLayout>
+
+				<!-- Missions principales -->
+				<VerticalStackLayout Spacing="8">
+					<Label Text="Missions principales" Style="{StaticResource LabelSection}" />
+					<VerticalStackLayout BindableLayout.ItemsSource="{Binding Offer.Missions}" Spacing="12">
+						<BindableLayout.ItemTemplate>
+							<DataTemplate>
+								<Grid ColumnDefinitions="Auto,*" ColumnSpacing="10">
+									<Border WidthRequest="6" HeightRequest="6" StrokeThickness="0"
+									        StrokeShape="RoundRectangle 3" BackgroundColor="{StaticResource Primary}"
+									        VerticalOptions="Start" Margin="0,8,0,0" />
+									<Label Grid.Column="1" TextColor="{StaticResource OnSurfaceVariant}">
+										<Label.FormattedText>
+											<FormattedString>
+												<Span Text="{Binding Title, StringFormat='{0} '}" FontAttributes="Bold"
+												      TextColor="{StaticResource OnSurface}" />
+												<Span Text="{Binding Text}" />
+											</FormattedString>
+										</Label.FormattedText>
+									</Label>
+								</Grid>
+							</DataTemplate>
+						</BindableLayout.ItemTemplate>
+					</VerticalStackLayout>
+				</VerticalStackLayout>
+			</VerticalStackLayout>
+		</ScrollView>
+
+		<!-- Barre d'action -->
+		<Border Grid.Row="2" Padding="16,12" StrokeThickness="0" BackgroundColor="{StaticResource Surface}">
+			<Button Text="{Binding ApplyButtonText}" Command="{Binding ApplyCommand}"
+			        Style="{StaticResource PrimaryButton}">
+				<Button.Triggers>
+					<DataTrigger TargetType="Button" Binding="{Binding HasApplied}" Value="True">
+						<Setter Property="BackgroundColor" Value="{StaticResource TertiaryContainer}" />
+						<Setter Property="TextColor" Value="{StaticResource OnTertiaryContainer}" />
+					</DataTrigger>
+				</Button.Triggers>
+			</Button>
+		</Border>
+	</Grid>
+</ContentPage>

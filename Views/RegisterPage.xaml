@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="StageLink.Views.RegisterPage"
+             Shell.NavBarIsVisible="False"
+             Shell.TabBarIsVisible="False">
+	<ScrollView>
+		<VerticalStackLayout Padding="16,16,16,32" Spacing="16">
+
+			<Border Style="{StaticResource IconButton}" StrokeShape="RoundRectangle 8" HorizontalOptions="Start">
+				<Border.GestureRecognizers>
+					<TapGestureRecognizer Command="{Binding GoBackCommand}" />
+				</Border.GestureRecognizers>
+				<Label Text="←" FontSize="20" HorizontalOptions="Center" VerticalOptions="Center" />
+			</Border>
+
+			<VerticalStackLayout Spacing="4">
+				<Label Text="Inscription" Style="{StaticResource LabelHeadline}" FontSize="26" />
+				<Label Text="Créez votre profil étudiant pour accéder à vos stages et conventions."
+				       Style="{StaticResource LabelBody}" />
+			</VerticalStackLayout>
+
+			<VerticalStackLayout Spacing="6">
+				<Label Text="Nom complet" Style="{StaticResource LabelBody}" FontSize="12" />
+				<Border Style="{StaticResource InputBox}">
+					<Grid ColumnDefinitions="Auto,*" ColumnSpacing="8">
+						<Label Text="👤" FontSize="16" VerticalOptions="Center" />
+						<Entry Grid.Column="1" Text="{Binding FullName}" Placeholder="Idriss Kamfo" ReturnType="Next" />
+					</Grid>
+				</Border>
+			</VerticalStackLayout>
+
+			<VerticalStackLayout Spacing="6">
+				<Label Text="Établissement / Université" Style="{StaticResource LabelBody}" FontSize="12" />
+				<Border Style="{StaticResource InputBox}">
+					<Grid ColumnDefinitions="Auto,*" ColumnSpacing="8">
+						<Label Text="🏛" FontSize="16" VerticalOptions="Center" />
+						<Entry Grid.Column="1" Text="{Binding Institution}"
+						       Placeholder="Ecole Nationale Supérieure Polytechnique de Douala" ReturnType="Next" />
+					</Grid>
+				</Border>
+			</VerticalStackLayout>
+
+			<VerticalStackLayout Spacing="6">
+				<Label Text="Filière / Spécialité" Style="{StaticResource LabelBody}" FontSize="12" />
+				<Border Style="{StaticResource InputBox}">
+					<Grid ColumnDefinitions="Auto,*" ColumnSpacing="8">
+						<Label Text="🎓" FontSize="16" VerticalOptions="Center" />
+						<Entry Grid.Column="1" Text="{Binding Major}" Placeholder="Génie Logiciel &amp; Data"
+						       ReturnType="Next" />
+					</Grid>
+				</Border>
+			</VerticalStackLayout>
+
+			<VerticalStackLayout Spacing="6">
+				<Label Text="Email académique" Style="{StaticResource LabelBody}" FontSize="12" />
+				<Border Style="{StaticResource InputBox}">
+					<Grid ColumnDefinitions="Auto,*" ColumnSpacing="8">
+						<Label Text="✉" FontSize="16" TextColor="{StaticResource Outline}" VerticalOptions="Center" />
+						<Entry Grid.Column="1" Text="{Binding Email}" Placeholder="prenom.nom@univ-tech.edu"
+						       Keyboard="Email" ReturnType="Next" />
+					</Grid>
+				</Border>
+			</VerticalStackLayout>
+
+			<VerticalStackLayout Spacing="6">
+				<Label Text="Mot de passe" Style="{StaticResource LabelBody}" FontSize="12" />
+				<Border Style="{StaticResource InputBox}">
+					<Grid ColumnDefinitions="Auto,*,Auto" ColumnSpacing="8">
+						<Label Text="🔒" FontSize="16" VerticalOptions="Center" />
+						<Entry Grid.Column="1" Text="{Binding Password}" Placeholder="Mot de passe"
+						       IsPassword="{Binding IsPasswordHidden}" ReturnType="Done" />
+						<Label Grid.Column="2" Text="{Binding PasswordToggleText}" FontSize="12"
+						       TextColor="{StaticResource Secondary}" VerticalOptions="Center">
+							<Label.GestureRecognizers>
+								<TapGestureRecognizer Command="{Binding TogglePasswordCommand}" />
+							</Label.GestureRecognizers>
+						</Label>
+					</Grid>
+				</Border>
+				<!-- Indicateur de robustesse -->
+				<Grid ColumnDefinitions="*,*,*,Auto" ColumnSpacing="4">
+					<BoxView Grid.Column="0" HeightRequest="4" CornerRadius="2" Color="{Binding Bar1Color}"
+					         VerticalOptions="Center" />
+					<BoxView Grid.Column="1" HeightRequest="4" CornerRadius="2" Color="{Binding Bar2Color}"
+					         VerticalOptions="Center" />
+					<BoxView Grid.Column="2" HeightRequest="4" CornerRadius="2" Color="{Binding Bar3Color}"
+					         VerticalOptions="Center" />
+					<Label Grid.Column="3" Text="{Binding PasswordStrengthLabel}" FontSize="10" FontAttributes="Bold"
+					       TextColor="{Binding PasswordStrengthColor}" Margin="8,0,0,0" />
+				</Grid>
+			</VerticalStackLayout>
+
+			<HorizontalStackLayout Spacing="8">
+				<CheckBox IsChecked="{Binding AcceptTerms}" VerticalOptions="Center" />
+				<Label VerticalOptions="Center" FontSize="12">
+					<Label.FormattedText>
+						<FormattedString>
+							<Span Text="J'accepte les " TextColor="{StaticResource OnSurfaceVariant}" />
+							<Span Text="conditions générales d'utilisation" TextColor="{StaticResource Primary}" />
+						</FormattedString>
+					</Label.FormattedText>
+				</Label>
+			</HorizontalStackLayout>
+
+			<Label Text="{Binding ErrorMessage}" IsVisible="{Binding HasError}" Style="{StaticResource LabelError}" />
+
+			<Button Text="S'inscrire" Command="{Binding RegisterCommand}" Style="{StaticResource PrimaryButton}" />
+
+			<HorizontalStackLayout HorizontalOptions="Center" Spacing="6">
+				<Label Text="Déjà un compte ?" Style="{StaticResource LabelBody}" />
+				<Label Text="Se connecter" Style="{StaticResource LabelLink}">
+					<Label.GestureRecognizers>
+						<TapGestureRecognizer Command="{Binding GoBackCommand}" />
+					</Label.GestureRecognizers>
+				</Label>
+			</HorizontalStackLayout>
+		</VerticalStackLayout>
+	</ScrollView>
+</ContentPage>

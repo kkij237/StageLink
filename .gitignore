@@ -1,0 +1,8 @@
+bin/
+obj/
+.vs/
+.vscode/
+*.user
+*.apk
+*.aab
+*.mp4

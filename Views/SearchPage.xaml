@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:comp="clr-namespace:StageLink.Views.Components"
+             x:Class="StageLink.Views.SearchPage"
+             x:Name="Page"
+             Shell.NavBarIsVisible="False">
+	<Grid RowDefinitions="Auto,Auto,*">
+
+		<comp:AppHeader Grid.Row="0" Subtitle="Recherche" />
+
+		<VerticalStackLayout Grid.Row="1" Padding="16,4,16,8" Spacing="8">
+
+			<Border Style="{StaticResource InputBox}">
+				<Grid ColumnDefinitions="Auto,*,Auto" ColumnSpacing="8">
+					<Label Text="🔍" FontSize="16" VerticalOptions="Center" />
+					<Entry Grid.Column="1" Text="{Binding SearchText}" Placeholder="Poste, outil, entreprise..."
+					       ReturnType="Search" />
+					<Label Grid.Column="2" Text="✕" FontSize="16" TextColor="{StaticResource OnSurfaceVariant}"
+					       VerticalOptions="Center" IsVisible="{Binding HasQuery}" Padding="6">
+						<Label.GestureRecognizers>
+							<TapGestureRecognizer Command="{Binding ClearQueryCommand}" />
+						</Label.GestureRecognizers>
+					</Label>
+				</Grid>
+			</Border>
+
+			<Grid ColumnDefinitions="*,Auto">
+				<Label Text="{Binding FilterCountLabel}" Style="{StaticResource LabelCaption}" FontSize="10" />
+				<Label Grid.Column="1" Text="Tout effacer" FontSize="10" FontAttributes="Bold"
+				       TextColor="{StaticResource Primary}">
+					<Label.GestureRecognizers>
+						<TapGestureRecognizer Command="{Binding ClearAllCommand}" />
+					</Label.GestureRecognizers>
+				</Label>
+			</Grid>
+
+			<!-- Filtres appliqués -->
+			<FlexLayout BindableLayout.ItemsSource="{Binding AppliedFilters}" Wrap="Wrap" AlignItems="Center">
+				<BindableLayout.ItemTemplate>
+					<DataTemplate>
+						<Border BackgroundColor="{StaticResource SurfaceContainerHigh}" StrokeThickness="0"
+						        StrokeShape="RoundRectangle 14" Padding="10,5" Margin="0,0,6,6">
+							<HorizontalStackLayout Spacing="6">
+								<Label Text="{Binding Label}" FontSize="11" TextColor="{StaticResource OnSurfaceVariant}"
+								       VerticalOptions="Center" />
+								<Label Text="✕" FontSize="11" TextColor="{StaticResource Outline}" VerticalOptions="Center">
+									<Label.GestureRecognizers>
+										<TapGestureRecognizer
+											Command="{Binding BindingContext.RemoveFilterCommand, Source={x:Reference Page}}"
+											CommandParameter="{Binding .}" />
+									</Label.GestureRecognizers>
+								</Label>
+							</HorizontalStackLayout>
+						</Border>
+					</DataTemplate>
+				</BindableLayout.ItemTemplate>
+			</FlexLayout>
+
+			<!-- Suggestions de filtres -->
+			<Label Text="Ajouter un filtre" Style="{StaticResource LabelCaption}" FontSize="10" />
+			<FlexLayout BindableLayout.ItemsSource="{Binding SuggestedFilters}" Wrap="Wrap" AlignItems="Center">
+				<BindableLayout.ItemTemplate>
+					<DataTemplate>
+						<Border BackgroundColor="{StaticResource SurfaceContainer}" StrokeThickness="0"
+						        StrokeShape="RoundRectangle 14" Padding="10,5" Margin="0,0,6,6">
+							<Border.GestureRecognizers>
+								<TapGestureRecognizer
+									Command="{Binding BindingContext.AddFilterCommand, Source={x:Reference Page}}"
+									CommandParameter="{Binding .}" />
+							</Border.GestureRecognizers>
+							<Label Text="{Binding Label, StringFormat='+ {0}'}" FontSize="11"
+							       TextColor="{StaticResource Secondary}" />
+						</Border>
+					</DataTemplate>
+				</BindableLayout.ItemTemplate>
+			</FlexLayout>
+		</VerticalStackLayout>
+
+		<!-- Résultats -->
+		<CollectionView Grid.Row="2" ItemsSource="{Binding Results}" SelectionMode="None" Margin="16,0"
+		                IsVisible="{Binding HasResults}">
+			<CollectionView.ItemsLayout>
+				<LinearItemsLayout Orientation="Vertical" ItemSpacing="12" />
+			</CollectionView.ItemsLayout>
+			<CollectionView.ItemTemplate>
+				<DataTemplate>
+					<comp:OfferCard
+						OpenCommand="{Binding BindingContext.OpenOfferCommand, Source={x:Reference Page}}"
+						BookmarkCommand="{Binding BindingContext.ToggleBookmarkCommand, Source={x:Reference Page}}" />
+				</DataTemplate>
+			</CollectionView.ItemTemplate>
+			<CollectionView.Footer>
+				<BoxView HeightRequest="16" Color="Transparent" />
+			</CollectionView.Footer>
+		</CollectionView>
+
+		<!-- État vide -->
+		<VerticalStackLayout Grid.Row="2" VerticalOptions="Start" HorizontalOptions="Center" Spacing="8"
+		                     Padding="16,48,16,0" IsVisible="{Binding IsEmpty}">
+			<Label Text="🔍" FontSize="32" HorizontalOptions="Center" />
+			<Label Text="Aucune offre trouvée" Style="{StaticResource LabelTitle}" HorizontalOptions="Center" />
+			<Button Text="Réinitialiser" Command="{Binding ClearAllCommand}"
+			        Style="{StaticResource SmallSecondaryButton}" HorizontalOptions="Center" Margin="0,8,0,0" />
+		</VerticalStackLayout>
+	</Grid>
+</ContentPage>

@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="StageLink.Views.LoginPage"
+             Shell.NavBarIsVisible="False">
+	<ScrollView>
+		<VerticalStackLayout Padding="16,24" Spacing="16">
+
+			<HorizontalStackLayout Spacing="8">
+				<Image Source="logo.png" HeightRequest="32" WidthRequest="32" />
+				<Label Text="StageLink" Style="{StaticResource LabelTitle}" VerticalOptions="Center" />
+			</HorizontalStackLayout>
+
+			<VerticalStackLayout Spacing="4">
+				<Label Text="Connexion" Style="{StaticResource LabelHeadline}" FontSize="26" />
+				<Label Text="Accédez à votre espace d'alternance et de stage." Style="{StaticResource LabelBody}" />
+			</VerticalStackLayout>
+
+			<!-- Onglets Étudiant / Recruteur -->
+			<Border Style="{StaticResource Card}" Padding="4">
+				<Grid ColumnDefinitions="*,*" ColumnSpacing="4">
+					<Border Grid.Column="0" StrokeThickness="0" StrokeShape="RoundRectangle 8" Padding="0,10"
+					        BackgroundColor="Transparent">
+						<Border.GestureRecognizers>
+							<TapGestureRecognizer Command="{Binding SelectRoleCommand}" CommandParameter="student" />
+						</Border.GestureRecognizers>
+						<Border.Triggers>
+							<DataTrigger TargetType="Border" Binding="{Binding IsStudent}" Value="True">
+								<Setter Property="BackgroundColor" Value="{StaticResource Surface}" />
+							</DataTrigger>
+						</Border.Triggers>
+						<Label Text="🎓  Étudiant" HorizontalOptions="Center" FontAttributes="Bold"
+						       TextColor="{StaticResource OnSurfaceVariant}">
+							<Label.Triggers>
+								<DataTrigger TargetType="Label" Binding="{Binding IsStudent}" Value="True">
+									<Setter Property="TextColor" Value="{StaticResource Primary}" />
+								</DataTrigger>
+							</Label.Triggers>
+						</Label>
+					</Border>
+					<Border Grid.Column="1" StrokeThickness="0" StrokeShape="RoundRectangle 8" Padding="0,10"
+					        BackgroundColor="Transparent">
+						<Border.GestureRecognizers>
+							<TapGestureRecognizer Command="{Binding SelectRoleCommand}" CommandParameter="recruiter" />
+						</Border.GestureRecognizers>
+						<Border.Triggers>
+							<DataTrigger TargetType="Border" Binding="{Binding IsRecruiter}" Value="True">
+								<Setter Property="BackgroundColor" Value="{StaticResource Surface}" />
+							</DataTrigger>
+						</Border.Triggers>
+						<Label Text="🏢  Recruteur" HorizontalOptions="Center" FontAttributes="Bold"
+						       TextColor="{StaticResource OnSurfaceVariant}">
+							<Label.Triggers>
+								<DataTrigger TargetType="Label" Binding="{Binding IsRecruiter}" Value="True">
+									<Setter Property="TextColor" Value="{StaticResource Primary}" />
+								</DataTrigger>
+							</Label.Triggers>
+						</Label>
+					</Border>
+				</Grid>
+			</Border>
+
+			<!-- Bandeau d'erreur -->
+			<HorizontalStackLayout Spacing="6" IsVisible="{Binding HasError}">
+				<Label Text="⚠" Style="{StaticResource LabelError}" FontSize="14" />
+				<Label Text="{Binding ErrorMessage}" Style="{StaticResource LabelError}" />
+			</HorizontalStackLayout>
+
+			<!-- Email -->
+			<VerticalStackLayout Spacing="6">
+				<Grid ColumnDefinitions="*,Auto">
+					<Label Text="Email académique" Style="{StaticResource LabelBody}" FontSize="12" />
+					<Label Grid.Column="1" Text="{Binding RoleHint}" FontSize="10"
+					       TextColor="{StaticResource Secondary}" />
+				</Grid>
+				<Border Style="{StaticResource InputBox}">
+					<Grid ColumnDefinitions="Auto,*" ColumnSpacing="8">
+						<Label Text="✉" FontSize="16" TextColor="{StaticResource Outline}" VerticalOptions="Center" />
+						<Entry Grid.Column="1" Text="{Binding Email}" Placeholder="{Binding EmailPlaceholder}"
+						       Keyboard="Email" ReturnType="Next" VerticalOptions="Center" />
+					</Grid>
+				</Border>
+			</VerticalStackLayout>
+
+			<!-- Mot de passe -->
+			<VerticalStackLayout Spacing="6">
+				<Grid ColumnDefinitions="*,Auto">
+					<Label Text="Mot de passe" Style="{StaticResource LabelBody}" FontSize="12" />
+					<Label Grid.Column="1" Text="Mot de passe oublié ?" FontSize="12"
+					       TextColor="{StaticResource Secondary}">
+						<Label.GestureRecognizers>
+							<TapGestureRecognizer Command="{Binding ForgotPasswordCommand}" />
+						</Label.GestureRecognizers>
+					</Label>
+				</Grid>
+				<Border Style="{StaticResource InputBox}">
+					<Grid ColumnDefinitions="Auto,*,Auto" ColumnSpacing="8">
+						<Label Text="🔑" FontSize="16" VerticalOptions="Center" />
+						<Entry Grid.Column="1" Text="{Binding Password}" Placeholder="••••••••••••"
+						       IsPassword="{Binding IsPasswordHidden}" ReturnType="Done"
+						       ReturnCommand="{Binding LoginCommand}" VerticalOptions="Center" />
+						<Label Grid.Column="2" Text="{Binding PasswordToggleText}" FontSize="12"
+						       TextColor="{StaticResource Secondary}" VerticalOptions="Center">
+							<Label.GestureRecognizers>
+								<TapGestureRecognizer Command="{Binding TogglePasswordCommand}" />
+							</Label.GestureRecognizers>
+						</Label>
+					</Grid>
+				</Border>
+			</VerticalStackLayout>
+
+			<HorizontalStackLayout Spacing="8">
+				<CheckBox IsChecked="{Binding RememberMe}" VerticalOptions="Center" />
+				<Label Text="Mémoriser cet appareil éco-authentifié" FontSize="12" VerticalOptions="Center" />
+			</HorizontalStackLayout>
+
+			<Button Text="{Binding LoginButtonText}" Command="{Binding LoginCommand}"
+			        Style="{StaticResource PrimaryButton}" BackgroundColor="{StaticResource PrimaryContainer}"
+			        TextColor="{StaticResource OnPrimaryContainer}" />
+
+			<HorizontalStackLayout HorizontalOptions="Center" Spacing="6">
+				<Label Text="Pas encore de compte ?" Style="{StaticResource LabelBody}" />
+				<Label Text="Créer un compte" Style="{StaticResource LabelLink}">
+					<Label.GestureRecognizers>
+						<TapGestureRecognizer Command="{Binding GoToRegisterCommand}" />
+					</Label.GestureRecognizers>
+				</Label>
+			</HorizontalStackLayout>
+
+			<!-- Démo 30 s -->
+			<Button Text="▶  Lancer la démo (30 s)" Command="{Binding StartDemoCommand}"
+			        Style="{StaticResource SecondaryButton}" />
+			<Label Text="{Binding DemoHint}" Style="{StaticResource LabelCaption}" HorizontalTextAlignment="Center" />
+		</VerticalStackLayout>
+	</ScrollView>
+</ContentPage>

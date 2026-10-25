@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="StageLink.Views.Components.OfferCard"
+             x:Name="Root">
+	<Border Style="{StaticResource Card}">
+		<Border.GestureRecognizers>
+			<TapGestureRecognizer Command="{Binding OpenCommand, Source={x:Reference Root}}"
+			                      CommandParameter="{Binding .}" />
+		</Border.GestureRecognizers>
+		<VerticalStackLayout Spacing="12">
+
+			<Grid ColumnDefinitions="*,Auto" ColumnSpacing="8">
+				<VerticalStackLayout Spacing="2">
+					<Label Text="{Binding Title}" Style="{StaticResource LabelTitle}"
+					       LineBreakMode="TailTruncation" MaxLines="1" />
+					<Label Text="{Binding Subtitle}" Style="{StaticResource LabelBody}" FontSize="12" />
+				</VerticalStackLayout>
+				<Label Grid.Column="1" Text="{Binding BookmarkGlyph}" FontSize="24" Padding="4"
+				       TextColor="{StaticResource Outline}" VerticalOptions="Start">
+					<Label.GestureRecognizers>
+						<TapGestureRecognizer Command="{Binding BookmarkCommand, Source={x:Reference Root}}"
+						                      CommandParameter="{Binding .}" />
+					</Label.GestureRecognizers>
+					<Label.Triggers>
+						<DataTrigger TargetType="Label" Binding="{Binding IsBookmarked}" Value="True">
+							<Setter Property="TextColor" Value="{StaticResource Primary}" />
+						</DataTrigger>
+					</Label.Triggers>
+				</Label>
+			</Grid>
+
+			<Label Text="{Binding DurationSalary}" Style="{StaticResource LabelBody}" FontSize="12" />
+
+			<Grid ColumnDefinitions="*,Auto" ColumnSpacing="8">
+				<FlexLayout BindableLayout.ItemsSource="{Binding Tags}" Wrap="Wrap"
+				            AlignItems="Center" VerticalOptions="Center">
+					<BindableLayout.ItemTemplate>
+						<DataTemplate>
+							<Border BackgroundColor="{StaticResource SurfaceVariant}" StrokeThickness="0"
+							        StrokeShape="RoundRectangle 4" Padding="8,2" Margin="0,0,6,4">
+								<Label Text="{Binding .}" FontSize="10" FontAttributes="Bold"
+								       TextColor="{StaticResource OnSurfaceVariant}" />
+							</Border>
+						</DataTemplate>
+					</BindableLayout.ItemTemplate>
+				</FlexLayout>
+
+				<Button Grid.Column="1" Text="{Binding ActionLabel}"
+				        Command="{Binding OpenCommand, Source={x:Reference Root}}"
+				        CommandParameter="{Binding .}"
+				        Style="{StaticResource SmallSecondaryButton}" VerticalOptions="Center">
+					<Button.Triggers>
+						<DataTrigger TargetType="Button" Binding="{Binding IsFeatured}" Value="True">
+							<Setter Property="BackgroundColor" Value="{StaticResource Primary}" />
+							<Setter Property="TextColor" Value="{StaticResource OnPrimary}" />
+						</DataTrigger>
+					</Button.Triggers>
+				</Button>
+			</Grid>
+		</VerticalStackLayout>
+	</Border>
+</ContentView>

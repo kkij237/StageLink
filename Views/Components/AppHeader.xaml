@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="StageLink.Views.Components.AppHeader"
+             x:Name="Root">
+	<Grid ColumnDefinitions="*,Auto,Auto" ColumnSpacing="4" Padding="16,0" HeightRequest="64"
+	      BackgroundColor="{StaticResource Surface}">
+		<HorizontalStackLayout Spacing="8" VerticalOptions="Center">
+			<Image Source="logo.png" HeightRequest="32" WidthRequest="32" VerticalOptions="Center" />
+			<VerticalStackLayout VerticalOptions="Center">
+				<Label Text="StageLink" Style="{StaticResource LabelTitle}" />
+				<Label Text="{Binding Subtitle, Source={x:Reference Root}}" FontSize="10"
+				       TextColor="{StaticResource OnSurfaceVariant}" />
+			</VerticalStackLayout>
+		</HorizontalStackLayout>
+
+		<!-- Cloche : ouvre Alertes & Notifications -->
+		<Grid Grid.Column="1" WidthRequest="44" HeightRequest="44">
+			<Grid.GestureRecognizers>
+				<TapGestureRecognizer Command="{Binding OpenAlertsCommand}" />
+			</Grid.GestureRecognizers>
+			<Label Text="🔔" FontSize="20" HorizontalOptions="Center" VerticalOptions="Center"
+			       TextColor="{StaticResource OnSurfaceVariant}" />
+			<Border WidthRequest="8" HeightRequest="8" StrokeThickness="0" StrokeShape="RoundRectangle 4"
+			        BackgroundColor="{StaticResource Primary}" HorizontalOptions="End" VerticalOptions="Start"
+			        Margin="0,10,10,0" />
+		</Grid>
+
+		<!-- Avatar : ouvre le profil -->
+		<Border Grid.Column="2" WidthRequest="32" HeightRequest="32" StrokeThickness="1"
+		        Stroke="{StaticResource OutlineVariant}" StrokeShape="RoundRectangle 16"
+		        BackgroundColor="{StaticResource SurfaceVariant}" VerticalOptions="Center">
+			<Border.GestureRecognizers>
+				<TapGestureRecognizer Command="{Binding OpenProfileCommand}" />
+			</Border.GestureRecognizers>
+			<Label Text="👤" FontSize="16" HorizontalOptions="Center" VerticalOptions="Center" />
+		</Border>
+	</Grid>
+</ContentView>
